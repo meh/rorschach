@@ -1,0 +1,15 @@
+[package]
+name = "rorschach"
+version = "0.1.0"
+authors = ["meh. <meh@schizofreni.co>"]
+
+[dependencies]
+byteorder = "0.5"
+
+[dependencies.ansi_term]
+optional = true
+version  = "0.7"
+
+[features]
+default = ["color"]
+color   = ["ansi_term"]
