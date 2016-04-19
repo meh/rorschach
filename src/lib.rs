@@ -1,6 +1,4 @@
 extern crate byteorder;
-
-#[cfg(feature = "color")]
 extern crate ansi_term;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
