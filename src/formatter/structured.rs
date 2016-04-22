@@ -120,6 +120,10 @@ struct Printer<W: Write> {
 }
 
 impl<W: Write> Printer<W> {
+	fn remaining(&self) -> usize {
+		32 - (self.consumed % 32)
+	}
+
 	fn space(string: &str, width: usize) -> (usize, usize) {
 		let rem  = width - string.len();
 		let half = if rem % 2 == 0 { rem / 2 } else { (rem - 1) / 2 };
@@ -164,7 +168,23 @@ impl<W: Write> Printer<W> {
 		}, bits, style)
 	}
 
-	pub fn hex(&mut self, data: &[u8], bits: usize, style: Option<ansi_term::Style>) -> io::Result<()> {
+	pub fn hex(&mut self, mut data: &[u8], mut bits: usize, style: Option<ansi_term::Style>) -> io::Result<()> {
+		let remaining = self.remaining();
+
+		if bits > remaining {
+			try!(self.hex(&data[.. remaining / 8], remaining, style));
+			data  = &data[remaining / 8 ..];
+			bits -= remaining;
+		}
+
+		if bits > 32 {
+			for data in data.chunks(4) {
+				try!(self.hex(data, data.len() * 8, style));
+			}
+
+			return Ok(());
+		}
+
 		self.print({
 			let mut out = String::with_capacity(data.len() * 3);
 
@@ -178,8 +198,26 @@ impl<W: Write> Printer<W> {
 	}
 
 	pub fn print<T: fmt::Display>(&mut self, data: T, bits: usize, style: Option<ansi_term::Style>) -> io::Result<()> {
-		let string        = data.to_string();
-		let width         = bits * 2 - 1;
+		let remaining = self.remaining();
+		let string    = data.to_string();
+		let width;
+
+		if bits > remaining {
+			if bits - remaining > remaining {
+				for _ in 0 .. (remaining / 8) {
+					try!(self.pad())
+				}
+
+				width = (bits - remaining) * 2 - 1;
+			}
+			else {
+				width = remaining * 2 - 1;
+			}
+		}
+		else {
+			width = bits * 2 - 1;
+		}
+
 		let (left, right) = Self::space(&string, width);
 
 		try!(write!(self.output, "|"));
@@ -195,7 +233,21 @@ impl<W: Write> Printer<W> {
 		try!(write!(self.output, "{: ^1$}", "", right));
 
 		self.padding = 0;
-		self.done(bits)
+
+		if bits > remaining {
+			if bits - remaining < remaining {
+				for _ in 0 .. ((bits - remaining) / 8) {
+					try!(self.pad());
+				}
+			}
+
+			try!(self.done(bits - remaining));
+		}
+		else {
+			try!(self.done(bits));
+		}
+
+		Ok(())
 	}
 
 	pub fn finish(&mut self) -> io::Result<()> {
