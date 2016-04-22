@@ -114,9 +114,9 @@ impl Builder {
 impl Into<Field> for Builder {
 	fn into(self) -> Field {
 		Field::Named(Named {
-			bits: self.bits.unwrap_or(0),
+			bits: self.bits.expect("missing field size"),
 
-			name:   self.name.unwrap(),
+			name:   self.name.expect("missing field name"),
 			style:  self.style,
 			binary: self.binary,
 

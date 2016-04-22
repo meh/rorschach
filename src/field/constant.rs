@@ -56,8 +56,8 @@ impl Builder {
 impl Into<Field> for Builder {
 	fn into(self) -> Field {
 		Field::Constant(Constant {
-			bits:  self.bits.unwrap_or(0),
-			value: self.value.unwrap_or(Vec::new()),
+			bits:  self.bits.expect("missing field size"),
+			value: self.value.expect("missing field value"),
 		})
 	}
 }

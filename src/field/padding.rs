@@ -38,7 +38,7 @@ impl Builder {
 impl Into<Field> for Builder {
 	fn into(self) -> Field {
 		Field::Padding(Padding {
-			bits: self.bits.unwrap_or(0),
+			bits: self.bits.unwrap(),
 		})
 	}
 }
