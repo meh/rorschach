@@ -13,7 +13,7 @@ pub struct Inline {
 impl Default for Inline {
 	fn default() -> Self {
 		Inline {
-			split:   4,
+			split:   1,
 			newline: false,
 			style:   None,
 		}
@@ -107,7 +107,7 @@ impl<W: Write> Printer<W> {
 				try!(write!(self.output, "{}", string));
 			}
 
-			if (self.printed + 1) % self.split == 0 {
+			if self.split > 0 && (self.printed + 1) % self.split == 0 {
 				try!(write!(self.output, " "));
 			}
 
