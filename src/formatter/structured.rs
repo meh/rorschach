@@ -239,7 +239,7 @@ impl<W: Write> Printer<W> {
 
 		if bits > remaining {
 			if bits - remaining <= remaining {
-				self.done((width + 1) / 2);
+				try!(self.done((width + 1) / 2));
 
 				for _ in 0 .. ((bits - remaining) / 8) {
 					try!(self.pad());
