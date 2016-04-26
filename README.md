@@ -81,4 +81,13 @@ The inline formatter is the simplest formatter, it just prints the bytes as
 hexadecimal one after another, but it does support coloring which can help
 reversing formats.
 
+```rust
+formatter::Inline::default()
+  .newline(true)
+  .split(4)
+  .style(Default::default())
+  .format(&def, buffer, io::stdout())
+  .unwrap()
+```
+
 ![Inline Screenshot](/screenshots/inline.png?raw=true)
