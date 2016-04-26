@@ -2,7 +2,7 @@ use std::{ptr, mem};
 use std::io::{self, Read};
 use std::any::{Any, TypeId};
 use ansi_term::Style;
-use {Field, Endian, util};
+use {Field, Endian};
 
 #[derive(Clone, PartialEq, Debug)]
 pub struct Named {
@@ -42,7 +42,7 @@ impl Named {
 	}
 
 	pub fn read<R: Read>(&self, mut buffer: R) -> io::Result<Vec<u8>> {
-		let mut data = vec![0u8; util::bytes(self.bits)];
+		let mut data = vec![0u8; super::bytes(self.bits)];
 		try!(buffer.read(&mut data));
 
 		Ok(data)

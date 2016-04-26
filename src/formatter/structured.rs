@@ -5,6 +5,7 @@ use ansi_term;
 use {Formatter, Definition, Field};
 use super::Style;
 
+/// Structured formatter, like the ones seen in network RFCs.
 #[derive(Clone, Copy, PartialEq, Default, Debug)]
 pub struct Structured {
 	header: bool,
@@ -12,11 +13,13 @@ pub struct Structured {
 }
 
 impl Structured {
+	/// Whether to print the header or not.
 	pub fn header(mut self, value: bool) -> Self {
 		self.header = value;
 		self
 	}
 
+	/// The default colors, once set it will always color the output.
 	pub fn style(mut self, value: Style) -> Self {
 		self.style = Some(value);
 		self

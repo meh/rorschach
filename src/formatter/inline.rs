@@ -3,6 +3,7 @@ use ansi_term;
 use {Formatter, Definition, Field};
 use super::Style;
 
+/// Inline formatter, just puts bytes one after another as hex.
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct Inline {
 	split:   usize,
@@ -21,16 +22,19 @@ impl Default for Inline {
 }
 
 impl Inline {
+	/// Adds a space every given bytes.
 	pub fn split(mut self, value: usize) -> Self {
 		self.split = value;
 		self
 	}
 
+	/// Whether to print a newline or not at the end.
 	pub fn newline(mut self, value: bool) -> Self {
 		self.newline = value;
 		self
 	}
 
+	/// The default colors, once set it will always color the output.
 	pub fn style(mut self, value: Style) -> Self {
 		self.style = Some(value);
 		self

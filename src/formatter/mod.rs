@@ -2,12 +2,15 @@ use std::io::{self, Read, Write};
 use ansi_term;
 use {Definition};
 
+/// Trait for formatters.
 pub trait Formatter {
 	fn format<R: Read, W: Write>(&self, def: &Definition, input: R, output: W) -> io::Result<()>;
 }
 
+/// Color for styling.
 pub use ansi_term::Colour as Color;
 
+/// Styles for fields that do not have instance styling.
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct Style {
 	pub default:  ansi_term::Style,

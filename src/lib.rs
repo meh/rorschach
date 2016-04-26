@@ -1,6 +1,7 @@
 extern crate byteorder;
 extern crate ansi_term;
 
+/// Endianness for fields.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Endian {
 	Little,
@@ -20,8 +21,6 @@ impl Default for Endian {
 }
 
 pub use Endian::{Little as LittleEndian, Big as BigEndian};
-
-mod util;
 
 mod definition;
 pub use definition::Definition;

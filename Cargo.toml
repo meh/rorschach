@@ -4,6 +4,7 @@ version = "0.1.1"
 
 authors = ["meh. <meh@schizofreni.co>"]
 license = "WTFPL"
+exclude = ["screenshots/*"]
 
 description = "Binary data definition and formatter."
 repository  = "https://github.com/meh/rorschach"

@@ -1,6 +1,6 @@
 use std::slice;
 use std::io::{self, Read};
-use {Field, util};
+use {Field};
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct Constant {
@@ -19,7 +19,7 @@ impl Constant {
 	}
 
 	pub fn read<R: Read>(&self, mut buffer: R) -> io::Result<Vec<u8>> {
-		let mut data = vec![0u8; util::bytes(self.bits)];
+		let mut data = vec![0u8; super::bytes(self.bits)];
 		try!(buffer.read(&mut data));
 
 		Ok(data)
@@ -46,7 +46,7 @@ impl Builder {
 	pub fn value<T: 'static>(mut self, value: T) -> Self {
 		self.value = Some(unsafe {
 			slice::from_raw_parts(&value as *const _ as *const u8,
-			                      util::bytes(self.bits.unwrap_or(0)))
+			                      super::bytes(self.bits.unwrap_or(0)))
 		}.to_vec());
 
 		self

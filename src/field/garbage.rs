@@ -1,5 +1,5 @@
 use std::io::{self, Read};
-use {Field, util};
+use {Field};
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct Garbage {
@@ -12,7 +12,7 @@ impl Garbage {
 	}
 
 	pub fn read<R: Read>(&self, mut buffer: R) -> io::Result<Vec<u8>> {
-		let mut data = vec![0u8; util::bytes(self.bits)];
+		let mut data = vec![0u8; super::bytes(self.bits)];
 		try!(buffer.read(&mut data));
 
 		Ok(data)
