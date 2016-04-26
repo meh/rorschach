@@ -37,3 +37,6 @@ pub use self::structured::Structured;
 
 mod inline;
 pub use self::inline::Inline;
+
+mod hex_dump;
+pub use self::hex_dump::HexDump;
