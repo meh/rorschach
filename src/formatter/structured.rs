@@ -235,13 +235,16 @@ impl<W: Write> Printer<W> {
 		self.padding = 0;
 
 		if bits > remaining {
-			if bits - remaining < remaining {
+			if bits - remaining <= remaining {
+				self.done((width + 1) / 2);
+
 				for _ in 0 .. ((bits - remaining) / 8) {
 					try!(self.pad());
 				}
 			}
-
-			try!(self.done(bits - remaining));
+			else {
+				try!(self.done(bits));
+			}
 		}
 		else {
 			try!(self.done(bits));
