@@ -1,6 +1,6 @@
 [package]
 name    = "rorschach"
-version = "0.1.2"
+version = "0.1.3"
 
 authors = ["meh. <meh@schizofreni.co>"]
 license = "WTFPL"
@@ -12,4 +12,4 @@ keywords    = ["formatter", "binary", "hex"]
 
 [dependencies]
 byteorder = "0.5"
-ansi_term = "0.7"
+ansi_term = "0.8"
